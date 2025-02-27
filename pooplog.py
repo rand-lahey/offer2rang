@@ -17,6 +17,29 @@ import datetime
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
+import time
+from kivymd.app import MDApp
+from kivymd.uix.label import MDLabel
+from kivy.clock import Clock
+
+# Prevent clipboard errors
+os.environ["KIVY_METRICS_DENSITY"] = "1"
+os.environ["KIVY_NO_CONSOLELOG"] = "1"
+
+class PoopTrackerApp(MDApp):
+    def build(self):
+        print("🔹 Inside build() method...")
+        Clock.schedule_once(self.exit_app, 5)  # Close the app after 5 seconds
+        return MDLabel(text="Hello, Poop World!")
+
+    def exit_app(self, dt):
+        print("🔹 Closing app automatically...")
+        self.stop()  # Stop the app
+
+if __name__ == "__main__":
+    print("🔹 Starting PoopTrackerApp...")
+    PoopTrackerApp().run()
+    print("🔹 App closed.")
 os.environ["KIVY_METRICS_DENSITY"] = "1"  # Prevents headless scaling issues
 os.environ["KIVY_NO_CONSOLELOG"] = "1"  # Reduce unnecessary logs
 
