@@ -16,6 +16,9 @@ from firebase_admin import credentials, firestore
 import datetime
 import pandas as pd
 import matplotlib.pyplot as plt
+import os
+os.environ["KIVY_METRICS_DENSITY"] = "1"  # Prevents headless scaling issues
+os.environ["KIVY_NO_CONSOLELOG"] = "1"  # Reduce unnecessary logs
 
 # 🔹 Initialize Firebase BEFORE running the app
 cred = credentials.Certificate("offerings2rang-firebase-adminsdk-fbsvc-a746c6d5e3.json")
