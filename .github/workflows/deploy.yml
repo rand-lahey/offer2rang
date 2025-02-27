@@ -30,4 +30,4 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run Tests (Headless Mode)
-        run: xvfb-run python your_script.py
+        run: xvfb-run python pooplog.py
