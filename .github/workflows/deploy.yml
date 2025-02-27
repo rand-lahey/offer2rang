@@ -29,5 +29,9 @@ jobs:
       - name: Install Python Dependencies
         run: pip install -r requirements.txt
 
+      - name: Recreate Firebase Service Account JSON
+        run: |
+          echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" > serviceAccountKey.json
+
       - name: Run Tests (Headless Mode)
         run: xvfb-run python pooplog.py
