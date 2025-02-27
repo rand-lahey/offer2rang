@@ -6,6 +6,7 @@ from kivy.uix.button import Button
 from kivy.core.clipboard import Clipboard
 
 Clipboard.init = lambda *args, **kwargs: None  # Disable clipboard functions
+
 from kivymd.app import MDApp
 from kivymd.uix.datatables import MDDataTable
 from kivymd.uix.screen import Screen
@@ -15,26 +16,16 @@ from firebase_admin import credentials, firestore
 import datetime
 import pandas as pd
 import matplotlib.pyplot as plt
-from kivymd.app import MDApp
-from kivymd.uix.label import MDLabel
 
-class PoopApp(MDApp):
-    def build(self):
-        print("🔹 Inside build() method...")  # Debugging print statement
-        return MDLabel(text="Hello, Poop World!")
-
-if __name__ == "__main__":
-    print("🔹 Starting App...")  # Debugging print statement
-    PoopApp().run()
-    print("🔹 App closed.")  # If this prints, the app exited cleanly
-
-# Initialize Firebase
+# 🔹 Initialize Firebase BEFORE running the app
 cred = credentials.Certificate("offerings2rang-firebase-adminsdk-fbsvc-a746c6d5e3.json")
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
 class PoopTrackerApp(MDApp):
     def build(self):
+        print("🔹 Inside build() method...")  # Debugging print statement
+
         self.screen = Screen()
         layout = BoxLayout(orientation='vertical', padding=20, spacing=10)
 
@@ -95,5 +86,6 @@ class PoopTrackerApp(MDApp):
         plt.show()
 
 if __name__ == "__main__":
+    print("🔹 Starting PoopTrackerApp...")  # Debugging print statement
     PoopTrackerApp().run()
-
+    print("🔹 App closed.")  # Debugging print statement
