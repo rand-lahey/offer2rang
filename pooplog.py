@@ -4,7 +4,7 @@ from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 from kivymd.app import MDApp
-from kivymd.uix.datatables.datatables import MDDataTable
+from kivymd.uix.datatables import MDDataTable
 from kivymd.uix.screen import Screen
 from kivy.metrics import dp
 import firebase_admin
@@ -14,7 +14,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Initialize Firebase
-cred = credentials.Certificate("serviceAccountKey.json")
+cred = credentials.Certificate("offerings2rang-firebase-adminsdk-fbsvc-a746c6d5e3.json")
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
