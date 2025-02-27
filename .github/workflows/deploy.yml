@@ -29,7 +29,8 @@ jobs:
       - name: Install Python Dependencies
         run: |
           pip install -r requirements.txt
-          pip install --upgrade https://github.com/kivymd/KivyMD/archive/master.zip
+          pip uninstall kivymd -y
+          pip install kivymd==1.1.1
 
       - name: Recreate Firebase Service Account JSON
         run: |
