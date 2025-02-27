@@ -25,4 +25,4 @@ jobs:
           echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" | base64 --decode > serviceAccountKey.json
 
       - name: Run Script
-        run: python your_script.py
+        run: python pooplog.py
