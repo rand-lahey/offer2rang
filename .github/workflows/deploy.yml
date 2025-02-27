@@ -31,7 +31,7 @@ jobs:
 
       - name: Recreate Firebase Service Account JSON
         run: |
-          echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" > serviceAccountKey.json
+          echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" | base64 --decode > serviceAccountKey.json
 
       - name: Run Tests (Headless Mode)
         run: xvfb-run python pooplog.py
