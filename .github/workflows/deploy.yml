@@ -1,6 +1,6 @@
 name: Deploy App
 
-on:  
+on:
   push:
     branches:
       - main
@@ -12,17 +12,22 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      - name: Install System Dependencies for Kivy
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libmtdev1 \
+            libgl1-mesa-dev \
+            xserver-xorg \
+            xvfb
+
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
           python-version: '3.10'
 
-      - name: Install Dependencies
+      - name: Install Python Dependencies
         run: pip install -r requirements.txt
 
-      - name: Decode Firebase Service Account Key
-        run: |
-          echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" | base64 --decode > serviceAccountKey.json
-
-      - name: Run Script
-        run: python pooplog.py
+      - name: Run Tests (Headless Mode)
+        run: xvfb-run python your_script.py
