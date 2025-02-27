@@ -38,9 +38,9 @@ jobs:
 
       - name: Run Tests (Headless Mode)
         run: xvfb-run python pooplog.py
-        
-      - name: Run Kivy App in Headless Mode
-        run: xvfb-run --server-args="-screen 0 1024x768x24" python pooplog.py
-        
+
+    
+      - name: Run Kivy App in Debug Mode
+        run: xvfb-run --server-args="-screen 0 1920x1080x24" python pooplog.py -d
         
     
