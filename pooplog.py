@@ -4,7 +4,7 @@ from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 from kivymd.app import MDApp
-from kivymd.uix.datatables import MDDataTable
+from kivymd.uix.datatables.datatables import MDDataTable
 from kivymd.uix.screen import Screen
 from kivy.metrics import dp
 import firebase_admin
