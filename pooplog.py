@@ -3,6 +3,9 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
+from kivy.core.clipboard import Clipboard
+
+Clipboard.init = lambda *args, **kwargs: None  # Disable clipboard functions
 from kivymd.app import MDApp
 from kivymd.uix.datatables import MDDataTable
 from kivymd.uix.screen import Screen
@@ -12,6 +15,18 @@ from firebase_admin import credentials, firestore
 import datetime
 import pandas as pd
 import matplotlib.pyplot as plt
+from kivymd.app import MDApp
+from kivymd.uix.label import MDLabel
+
+class PoopApp(MDApp):
+    def build(self):
+        print("🔹 Inside build() method...")  # Debugging print statement
+        return MDLabel(text="Hello, Poop World!")
+
+if __name__ == "__main__":
+    print("🔹 Starting App...")  # Debugging print statement
+    PoopApp().run()
+    print("🔹 App closed.")  # If this prints, the app exited cleanly
 
 # Initialize Firebase
 cred = credentials.Certificate("offerings2rang-firebase-adminsdk-fbsvc-a746c6d5e3.json")
