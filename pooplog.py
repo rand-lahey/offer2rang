@@ -4,7 +4,7 @@ from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 from kivymd.app import MDApp
-from kivymd.uix.table import MDDataTable
+from kivymd.uix.datatables import MDDataTable
 from kivymd.uix.screen import Screen
 from kivy.metrics import dp
 import firebase_admin
@@ -82,7 +82,3 @@ class PoopTrackerApp(MDApp):
 if __name__ == "__main__":
     PoopTrackerApp().run()
 
-import os
-
-firebase_key = os.getenv("FIREBASE_KEY")
-print(f"Loaded Firebase Key: {firebase_key}")
