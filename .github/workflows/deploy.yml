@@ -1,12 +1,9 @@
 name: Deploy App
 
 on:  
-  push:        # Runs when you push changes to GitHub  
-    branches:  
-      - main   # Change to your branch name if needed  
-  pull_request:  # Runs when a PR is created  
-    branches:  
-      - main  
+  push:
+    branches:
+      - main
 
 jobs:
   deploy:
@@ -23,8 +20,9 @@ jobs:
       - name: Install Dependencies
         run: pip install -r requirements.txt
 
-      - name: Access GitHub Secrets
-        run: echo "FIREBASE_KEY=${{ secrets.FIREBASE_KEY }}" >> $GITHUB_ENV
+      - name: Decode Firebase Service Account Key
+        run: |
+          echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" | base64 --decode > serviceAccountKey.json
 
       - name: Run Script
-        run: python pooplog.py
+        run: python your_script.py
