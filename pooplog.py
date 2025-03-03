@@ -1,28 +1,28 @@
-import os
-import time
-import datetime
-import threading
-import pandas as pd
-import matplotlib.pyplot as plt
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
+from kivy.core.clipboard import Clipboard
+
+Clipboard.init = lambda *args, **kwargs: None  # Disable clipboard functions
+
 from kivymd.app import MDApp
+from kivymd.uix.datatables import MDDataTable
 from kivymd.uix.screen import Screen
 from kivy.metrics import dp
-from kivy.clock import Clock
-from kivy.core.clipboard import Clipboard
-from firebase_admin import credentials, firestore, initialize_app
+import firebase_admin
+from firebase_admin import credentials, firestore
+import datetime
+import pandas as pd
+import matplotlib.pyplot as plt
+import os
+os.environ["KIVY_METRICS_DENSITY"] = "1"  # Prevents headless scaling issues
+os.environ["KIVY_NO_CONSOLELOG"] = "1"  # Reduce unnecessary logs
 
-# 🔹 Prevent clipboard and OpenGL issues
-os.environ["KIVY_METRICS_DENSITY"] = "1"
-os.environ["KIVY_NO_CONSOLELOG"] = "1"
-
-print("🔹 Initializing Firebase...")
+# 🔹 Initialize Firebase BEFORE running the app
 cred = credentials.Certificate("offerings2rang-firebase-adminsdk-fbsvc-a746c6d5e3.json")
-firebase_admin_app = initialize_app(cred)
+firebase_admin.initialize_app(cred)
 db = firestore.client()
 
 # Disable clipboard functions to prevent crashes in GitHub Actions
@@ -30,7 +30,7 @@ Clipboard.init = lambda *args, **kwargs: None
 
 class PoopTrackerApp(MDApp):
     def build(self):
-        print("🔹 Inside build() method...")
+        print("🔹 Inside build() method...")  # Debugging print statement
 
         self.screen = Screen()
         layout = BoxLayout(orientation='vertical', padding=20, spacing=10)
@@ -52,10 +52,6 @@ class PoopTrackerApp(MDApp):
         layout.add_widget(self.stats_button)
 
         self.screen.add_widget(layout)
-
-        # 🔹 Schedule an auto-close after 10 seconds to prevent GitHub Actions from freezing
-        Clock.schedule_once(self.exit_app, 10)
-
         return self.screen
 
     def log_poop(self, instance):
@@ -63,37 +59,31 @@ class PoopTrackerApp(MDApp):
         comment = self.comment_input.text
         timestamp = datetime.datetime.now()
 
-        if not rating.isdigit() or not (1 <= int(rating) <= 10):
-            self.label.text = "Invalid input! Enter a number from 1-10."
-            return
+            # Validate rating input
+            if not rating.isdigit() or not (1 <= int(rating) <= 10):
+                self.root.ids.status_label.text = "Invalid rating! Enter 1-10."
+                return
 
-        poop_data = {
-            "rating": int(rating),
-            "comment": comment,
-            "timestamp": timestamp
-        }
-        db.collection("poop_logs").add(poop_data)
-        self.label.text = "Poop logged successfully!"
+            # Save to Firebase
+            poop_data = {
+                "rating": int(rating),
+                "girth": float(girth) if girth else 0,
+                "length": float(length) if length else 0,
+                "demeanor": demeanor,
+                "comment": comment,
+                "timestamp": timestamp
+            }
+            db.collection("poop_logs").add(poop_data)
 
-    def view_stats(self, instance):
-        poops = db.collection("poop_logs").stream()
-        data = [(p.get("timestamp"), p.get("rating")) for p in (p.to_dict() for p in poops)]
+            # Update UI after successful log
+            self.root.ids.status_label.text = "Poop logged successfully!"
+            self.root.ids.rating_input.text = ""  # Clear input field
+            self.root.ids.girth_input.text = ""
+            self.root.ids.length_input.text = ""
+            self.root.ids.comment_input.text = ""
 
-        if not data:
-            self.label.text = "No poop data available."
-            return
-
-        df = pd.DataFrame(data, columns=["Timestamp", "Rating"])
-        df = df.sort_values(by="Timestamp")
-
-        plt.figure(figsize=(6, 4))
-        plt.plot(df["Timestamp"], df["Rating"], marker='o', linestyle='-')
-        plt.xlabel("Date")
-        plt.ylabel("Poop Rating")
-        plt.title("Poop Quality Over Time")
-        plt.xticks(rotation=45)
-        plt.tight_layout()
-        plt.show()
+        except Exception as e:
+            self.root.ids.status_label.text = f"Error: {str(e)}"
 
     def exit_app(self, dt):
         print("🔹 Auto-exiting app after 10 seconds to prevent freezing...")
@@ -101,6 +91,5 @@ class PoopTrackerApp(MDApp):
         os._exit(0)  # Forcefully kill the process
 
 if __name__ == "__main__":
-    print("🔹 Starting PoopTrackerApp...")
+    print("🔹 Starting PoopTrackerApp...")  # Debugging print statement
     PoopTrackerApp().run()
-    print("🔹 App closed.")  # Debugging print statement

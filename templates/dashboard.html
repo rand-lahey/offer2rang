@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Poop Log Dashboard</title>
+</head>
+<body>
+    <h1>Welcome to Poop Log</h1>
+    <p>Track your poops below.</p>
+    <form action="/generate-invite" method="POST">
+        <button type="submit">Generate Invite Link</button>
+    </form>
+
+<h2>Set Your Nickname & Privacy</h2>
+<form action="/set-nickname" method="POST">
+    <label for="nickname">Nickname:</label>
+    <input type="text" name="nickname" required><br>
+
+    <input type="checkbox" name="show_on_leaderboard"> Show my poops on the leaderboard<br>
+
+    <button type="submit">Save</button>
+</form>
+
+<a href="/leaderboard">View Poop Leaderboard</a>
+
+<form action="/log-poop" method="POST">
+    <label for="time">Time:</label>
+    <input type="datetime-local" name="time" required><br>
+
+    <label for="type">Type:</label>
+    <select name="type" required>
+        <option value="normal">Normal</option>
+        <option value="hard">Hard</option>
+        <option value="soft">Soft</option>
+        <option value="diarrhea">Diarrhea</option>
+    </select><br>
+
+    <label for="girth">Girth (cm):</label>
+    <input type="number" name="girth" step="0.1" required><br>
+
+    <label for="length">Length (cm):</label>
+    <input type="number" name="length" step="0.1" required><br>
+
+    <label for="notes">Notes:</label>
+    <textarea name="notes"></textarea><br>
+
+    <button type="submit">Log Poop</button>
+</form>
+
+    <h2>Your Poop Log</h2>
+    <ul>
+        {% for poop in poops %}
+            <li>{{ poop.time }} - {{ poop.type }} ({{ poop.notes }})</li>
+        {% endfor %}
+    </ul>
+
+    <a href="/logout">Logout</a>
+</body>
+</html>

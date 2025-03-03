@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Poop Log</title>
+</head>
+<body>
+    <h1>Welcome to Poop Log</h1>
+    <button onclick="googleLogin()">Log in with Google</button>
+
+    <!-- Firebase Scripts (Use v8) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+    <script>
+        // Initialize Firebase (Replace with actual values)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDid9eChzdbsxTkpirIHyc6sl2uHFpxWSg",
+            authDomain: "offerings2rang.firebaseapp.com",
+            projectId: "Yofferings2rang",
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        // Wait for Firebase to detect authentication state
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                console.log("User signed in:", user);
+            } else {
+                console.log("No user is signed in.");
+            }
+        });
+
+        function googleLogin() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            firebase.auth().signInWithPopup(provider)
+                .then((result) => {
+                    console.log("Login successful:", result.user);
+                    return result.user.getIdToken();
+                })
+                .then((idToken) => {
+                    console.log("Token received:", idToken);
+                    return fetch('/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: `idToken=${idToken}`
+                    });
+                })
+                .then(() => {
+                    window.location.href = "/dashboard";
+                })
+                .catch((error) => {
+                    console.error("Login failed:", error);
+                });
+        }
+    </script>
+</body>
+</html>

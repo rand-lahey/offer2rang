@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Join Poop Log</title>
+</head>
+<body>
+    <h1>Welcome to Poop Log</h1>
+    <p>You’ve been invited!</p>
+
+    <form action="/register" method="POST">
+        <input type="hidden" name="invite_code" value="{{ invite_code }}">
+        <label for="email">Email:</label>
+        <input type="email" name="email" required><br>
+
+        <label for="password">Password:</label>
+        <input type="password" name="password" required><br>
+
+        <button type="submit">Sign Up</button>
+    </form>
+</body>
+</html>

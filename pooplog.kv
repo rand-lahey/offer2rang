@@ -1,0 +1,60 @@
+Screen:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 10
+
+        Label:
+            text: "Rate Your Poop (1-10):"
+            font_size: 24
+
+        TextInput:
+            id: rating_input
+            hint_text: "Enter a number"
+            multiline: False
+
+        Label:
+            text: "Poop Girth (cm):"
+            font_size: 20
+
+        TextInput:
+            id: girth_input
+            hint_text: "Enter girth in cm"
+            multiline: False
+
+        Label:
+            text: "Poop Length (cm):"
+            font_size: 20
+
+        TextInput:
+            id: length_input
+            hint_text: "Enter length in cm"
+            multiline: False
+
+        Label:
+            text: "Poop Demeanor:"
+            font_size: 20
+
+        Spinner:
+            id: demeanor_spinner
+            text: "Select demeanor"
+            values: ["😃", "😁", "😘", "🙃", "🧐", "😏", "😆", "🙂", "😛"]
+
+        Label:
+            text: "Comments:"
+            font_size: 20
+
+        TextInput:
+            id: comment_input
+            hint_text: "Optional comments"
+            multiline: True
+
+        Button:
+            text: "Log Poop"
+            on_press: app.log_poop()  # Make sure this is exactly like this!
+
+        Label:
+            id: status_label
+            text: ""
+            font_size: 18
+            color: 1, 0, 0, 1

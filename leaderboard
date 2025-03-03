@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Poop Leaderboard</title>
+</head>
+<body>
+    <h1>Poop Leaderboard</h1>
+    <p>See who’s logging the most poops!</p>
+
+    <ul>
+        {% for user in leaderboard %}
+            <li>{{ user.nickname }} - {{ user.count }} poops</li>
+        {% endfor %}
+    </ul>
+
+    <a href="/dashboard">Back to Dashboard</a>
+</body>
+</html>
